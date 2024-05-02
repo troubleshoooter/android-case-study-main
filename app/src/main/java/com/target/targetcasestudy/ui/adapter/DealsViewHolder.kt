@@ -8,9 +8,11 @@ import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import com.bumptech.glide.Glide
 import com.target.targetcasestudy.R
+import com.target.targetcasestudy.data.source.remote.model.Product
 import com.target.targetcasestudy.ui.adapter.base.AbstractViewHolder
 
-class DealsViewHolder(itemView: View) : AbstractViewHolder<DealsUiModel>(itemView) {
+class DealsViewHolder(itemView: View, val onDealItemClick: ((Product) -> Unit)? = null) :
+    AbstractViewHolder<DealsUiModel>(itemView) {
 
     private val dealsImageView =
         itemView.findViewById<ImageFilterView>(R.id.deal_list_item_image_view)
@@ -53,6 +55,8 @@ class DealsViewHolder(itemView: View) : AbstractViewHolder<DealsUiModel>(itemVie
                 }
             }
         }
-
+        itemView.setOnClickListener {
+            onDealItemClick?.invoke(model.product)
+        }
     }
 }

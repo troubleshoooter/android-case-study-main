@@ -1,5 +1,6 @@
 package com.target.targetcasestudy.data.source.remote.model
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -14,7 +15,7 @@ data class Product(
     val imageUrl: String?,
     val description: String,
     @Json(name = "sale_price", ignore = true)
-    val salePrice: Price?=null,
+    val salePrice: Price? = null,
     @Json(name = "regular_price")
     val regularPrice: Price
 )
