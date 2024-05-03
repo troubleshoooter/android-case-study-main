@@ -1,6 +1,7 @@
 package com.target.targetcasestudy.ui.compose
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,18 +38,21 @@ import com.target.targetcasestudy.ui.compose.theme.RED
 import com.target.targetcasestudy.ui.compose.viewmodel.DealListComposeViewModel
 
 @Composable
-fun DealList(viewModel: DealListComposeViewModel = hiltViewModel()) {
+fun DealList(
+    viewModel: DealListComposeViewModel = hiltViewModel(),
+    onItemClick: (id: Int) -> Unit
+) {
     val deals = viewModel.getDeals().collectAsState()
     LazyColumn(verticalArrangement = Arrangement.Absolute.spacedBy(2.dp)) {
         items(deals.value.orEmpty()) {
-            DealListItem(product = it)
+            DealListItem(product = it, onItemClick)
         }
     }
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun DealListItem(product: Product) {
+fun DealListItem(product: Product, onItemClick: (id: Int) -> Unit) {
     val availability by remember {
         derivedStateOf {
             buildAnnotatedString {
@@ -66,6 +70,9 @@ fun DealListItem(product: Product) {
         modifier = Modifier
             .background(Color.White)
             .fillMaxWidth()
+            .clickable {
+                onItemClick(product.id)
+            }
     ) {
         GlideImage(
             model = product.imageUrl,
