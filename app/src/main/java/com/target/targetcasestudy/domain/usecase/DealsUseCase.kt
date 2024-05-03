@@ -2,15 +2,19 @@ package com.target.targetcasestudy.domain.usecase
 
 import com.target.targetcasestudy.domain.model.Product
 import com.target.targetcasestudy.domain.repository.DealsRepository
+import com.target.targetcasestudy.util.CoroutineDispatchers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class DealsUseCase @Inject constructor(private val dealsRepository: DealsRepository) {
+class DealsUseCase @Inject constructor(
+    private val dealsRepository: DealsRepository,
+    private val dispatchers: CoroutineDispatchers
+) {
 
     suspend fun getAllDeals(): Result<List<Product>> {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatchers.io) {
             try {
                 Result.success(dealsRepository.getAllDeals())
             } catch (e: HttpException) {
