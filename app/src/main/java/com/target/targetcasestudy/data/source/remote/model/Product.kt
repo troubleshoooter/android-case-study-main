@@ -1,8 +1,8 @@
 package com.target.targetcasestudy.data.source.remote.model
 
-import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import com.target.targetcasestudy.domain.model.Product as DomainProduct
 
 @JsonClass(generateAdapter = true)
 data class Product(
@@ -19,3 +19,17 @@ data class Product(
     @Json(name = "regular_price")
     val regularPrice: Price
 )
+
+fun Product.toDomain(): DomainProduct {
+    return DomainProduct(
+        id,
+        title,
+        aisle,
+        availability,
+        fulfillment,
+        imageUrl,
+        description,
+        salePrice?.toDomain(),
+        regularPrice.toDomain()
+    )
+}

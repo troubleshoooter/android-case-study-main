@@ -1,4 +1,4 @@
-package com.target.targetcasestudy.ui
+package com.target.targetcasestudy.ui.deals
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 import com.target.targetcasestudy.R
+import com.target.targetcasestudy.ui.deals.viewmodels.DealItemViewModel
 import com.target.targetcasestudy.ui.adapter.DealItemAdapter
 import com.target.targetcasestudy.ui.adapter.base.TargetTypesFactoryImpl
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,11 +40,13 @@ class DealItemFragment : Fragment() {
     private fun setUpObserver() {
         val id = arguments?.getInt("id")
         id?.let {
-            viewModel.getDeal(id)
+            viewModel.getDealInfo(id).observe(viewLifecycleOwner) {
+                itemAdapter.submitList(it)
+            }
         }
 
-        viewModel.dealsLiveData.observe(viewLifecycleOwner) {
-            itemAdapter.submitList(it)
+        viewModel.getErrorMessage().observe(viewLifecycleOwner) { message ->
+            view?.let { it -> Snackbar.make(it, message.orEmpty(), Snackbar.LENGTH_SHORT).show() }
         }
     }
 }

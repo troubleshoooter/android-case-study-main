@@ -1,4 +1,4 @@
-package com.target.targetcasestudy.ui.adapter
+package com.target.targetcasestudy.ui.adapter.viewholder
 
 import android.view.View
 import android.widget.TextView
@@ -8,10 +8,11 @@ import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import com.bumptech.glide.Glide
 import com.target.targetcasestudy.R
-import com.target.targetcasestudy.data.source.remote.model.Product
+import com.target.targetcasestudy.domain.model.Product
 import com.target.targetcasestudy.ui.adapter.base.AbstractViewHolder
+import com.target.targetcasestudy.ui.adapter.uimodels.DealsUiModel
 
-class DealsViewHolder(itemView: View, val onDealItemClick: ((Product) -> Unit)? = null) :
+class DealsViewHolder(itemView: View, private val onDealItemClick: ((Product) -> Unit)? = null) :
     AbstractViewHolder<DealsUiModel>(itemView) {
 
     private val dealsImageView =
@@ -34,9 +35,9 @@ class DealsViewHolder(itemView: View, val onDealItemClick: ((Product) -> Unit)? 
     }
 
     override fun bind(model: DealsUiModel) {
-        with(model.product) {
+        model.product?.run {
             Glide.with(itemView)
-                .load(imageUrl)
+                .load(this.imageUrl)
                 .into(dealsImageView)
             if (salePrice != null) {
                 dealsSalePrice.text = salePrice.displayString
@@ -55,8 +56,8 @@ class DealsViewHolder(itemView: View, val onDealItemClick: ((Product) -> Unit)? 
                 }
             }
         }
-        itemView.setOnClickListener {
-            onDealItemClick?.invoke(model.product)
+        itemView.setOnClickListener { _ ->
+            model.product?.let { onDealItemClick?.invoke(it) }
         }
     }
 }

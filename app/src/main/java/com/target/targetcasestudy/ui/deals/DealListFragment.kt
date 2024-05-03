@@ -1,4 +1,4 @@
-package com.target.targetcasestudy.ui
+package com.target.targetcasestudy.ui.deals
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 import com.target.targetcasestudy.R
-import com.target.targetcasestudy.data.source.remote.model.Product
+import com.target.targetcasestudy.domain.model.Product
+import com.target.targetcasestudy.ui.deals.viewmodels.DealListViewModel
 import com.target.targetcasestudy.ui.adapter.DealItemAdapter
 import com.target.targetcasestudy.ui.adapter.base.TargetTypesFactoryImpl
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DealListFragment : Fragment() {
 
-    private val viewmodel by viewModels<DealListViewModel>()
+    private val viewModel by viewModels<DealListViewModel>()
     private val dealsAdapter by lazy {
         DealItemAdapter(
             TargetTypesFactoryImpl(
@@ -35,17 +37,27 @@ class DealListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_deal_list, container, false)
-        view.findViewById<RecyclerView>(R.id.recycler_view)?.apply {
+        view?.findViewById<RecyclerView>(R.id.recycler_view)?.apply {
             context?.let { ctx ->
                 layoutManager = LinearLayoutManager(ctx)
                 adapter = dealsAdapter
             }
         }
-        viewmodel.getDeals()
-        viewmodel.dealsLiveData.observe(viewLifecycleOwner) {
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpObserver()
+    }
+
+    private fun setUpObserver() {
+        viewModel.getDeals().observe(viewLifecycleOwner) {
             dealsAdapter.submitList(it)
         }
-        return view
+        viewModel.getErrorMessage().observe(viewLifecycleOwner) { message ->
+            view?.let { it -> Snackbar.make(it, message.orEmpty(), Snackbar.LENGTH_SHORT).show() }
+        }
     }
 
     private fun onDealItemClick(product: Product) {

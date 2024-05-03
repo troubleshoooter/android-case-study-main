@@ -1,15 +1,11 @@
-package com.target.targetcasestudy.ui.adapter
+package com.target.targetcasestudy.ui.adapter.viewholder
 
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.LayoutRes
-import androidx.constraintlayout.utils.widget.ImageFilterView
-import androidx.core.text.buildSpannedString
-import androidx.core.text.color
-import com.bumptech.glide.Glide
 import com.target.targetcasestudy.R
-import com.target.targetcasestudy.data.source.remote.model.Product
 import com.target.targetcasestudy.ui.adapter.base.AbstractViewHolder
+import com.target.targetcasestudy.ui.adapter.uimodels.ProductDetailsCardUiModel
 
 class ProductDetailsCardViewHolder(itemView: View) :
     AbstractViewHolder<ProductDetailsCardUiModel>(itemView) {
@@ -24,6 +20,6 @@ class ProductDetailsCardViewHolder(itemView: View) :
     }
 
     override fun bind(model: ProductDetailsCardUiModel) {
-        productDetailsDesc.text = model.product.description
+        productDetailsDesc.text = model.product?.description
     }
 }

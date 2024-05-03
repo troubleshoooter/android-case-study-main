@@ -1,8 +1,8 @@
 package com.target.targetcasestudy.data.source.remote.model
 
-import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import com.target.targetcasestudy.domain.model.Price as DomainPrice
 
 @JsonClass(generateAdapter = true)
 data class Price(
@@ -13,3 +13,7 @@ data class Price(
     @Json(name = "display_string")
     val displayString: String
 )
+
+fun Price.toDomain(): DomainPrice {
+    return DomainPrice(amountInCents, currencySymbol, displayString)
+}

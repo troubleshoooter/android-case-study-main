@@ -1,15 +1,13 @@
-package com.target.targetcasestudy.ui.adapter
+package com.target.targetcasestudy.ui.adapter.viewholder
 
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.utils.widget.ImageFilterView
-import androidx.core.text.buildSpannedString
-import androidx.core.text.color
 import com.bumptech.glide.Glide
 import com.target.targetcasestudy.R
-import com.target.targetcasestudy.data.source.remote.model.Product
 import com.target.targetcasestudy.ui.adapter.base.AbstractViewHolder
+import com.target.targetcasestudy.ui.adapter.uimodels.ProductItemCardUiModel
 
 class ProductItemCardViewHolder(itemView: View) :
     AbstractViewHolder<ProductItemCardUiModel>(itemView) {
@@ -31,7 +29,7 @@ class ProductItemCardViewHolder(itemView: View) :
     }
 
     override fun bind(model: ProductItemCardUiModel) {
-        with(model.product) {
+        model.product?.run {
             Glide.with(itemView)
                 .load(imageUrl)
                 .into(productImageView)
