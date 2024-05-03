@@ -5,8 +5,6 @@ import com.target.targetcasestudy.CoroutineTestDispatcherProvider
 import com.target.targetcasestudy.domain.model.Product
 import com.target.targetcasestudy.domain.usecase.DealsUseCase
 import com.target.targetcasestudy.ui.adapter.uimodels.DealsUiModel
-import com.target.targetcasestudy.ui.adapter.uimodels.ProductDetailsCardUiModel
-import com.target.targetcasestudy.ui.adapter.uimodels.ProductItemCardUiModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +13,6 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
