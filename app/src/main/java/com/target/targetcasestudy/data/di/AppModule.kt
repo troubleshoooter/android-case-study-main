@@ -3,6 +3,8 @@ package com.target.targetcasestudy.data.di
 import com.squareup.moshi.Moshi
 import com.target.targetcasestudy.BuildConfig
 import com.target.targetcasestudy.data.source.remote.api.DealApiKtx
+import com.target.targetcasestudy.util.CoroutineDispatchers
+import com.target.targetcasestudy.util.CoroutineDispatchersProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,6 +46,12 @@ object AppModule {
             .addConverterFactory(MoshiConverterFactory.create(mosh))
             .build()
             .create(DealApiKtx::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCoroutineDispatchers(): CoroutineDispatchers {
+        return CoroutineDispatchersProvider
     }
 
 }
